@@ -1,5 +1,19 @@
-﻿<h3>InputContainer</h3>
+﻿@using MudBlazor
+
+<MudCollapse Expanded=@(!open)>
+    <InputCard setOpen=setOpen></InputCard>
+</MudCollapse>
+<MudCollapse Expanded=@open>
+    <MudPaper Elevation=0
+              @onclick=setOpen>
+              <MudText>+ Add a Card</MudText>
+    </MudPaper>
+</MudCollapse>
 
 @code {
-
+    private bool open;
+    private void setOpen()
+    {
+        open = !open;
+    }
 }

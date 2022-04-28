@@ -1,5 +1,7 @@
 ﻿<h3>InputCard</h3>
 
-@code {
+<button @onclick="@(() => setOpen.Invoke())"/>
 
+@code {
+    [Parameter] public Action setOpen { get; set; }
 }
