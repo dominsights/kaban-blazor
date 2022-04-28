@@ -1,7 +1,20 @@
-﻿<h3>InputCard</h3>
+﻿@using MudBlazor
 
-<button @onclick="@(() => setOpen.Invoke())"/>
+<button @onclick="@(() => setOpen.InvokeAsync(true))" />
+
+<MudPaper>
+    <MudTextField Lines=2
+                  Placeholder="Enter a title for this card..."
+                  FullWidth
+                  Value=Title></MudTextField>
+</MudPaper>
+<MudButton @onclick=@(() => setOpen.InvokeAsync(false))>
+    Add Card
+</MudButton>
+<MudIconButton Icon=@Icons.Outlined.Clear @onclick=@(() => setOpen.InvokeAsync(false))></MudIconButton>
 
 @code {
-    [Parameter] public Action setOpen { get; set; }
+    [Parameter] public EventCallback<bool> setOpen { get; set; }
+
+    public string Title { get; set; }
 }

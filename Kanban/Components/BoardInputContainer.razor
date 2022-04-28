@@ -1,5 +1,21 @@
-﻿<h3>BoardInputContainer</h3>
+﻿@using MudBlazor
+
+<MudCollapse Expanded=@(!open)>
+    <BoardInputCard setOpen=setOpen OnClick=OnClick></BoardInputCard>
+</MudCollapse>
+<MudCollapse Expanded=@open>
+    <MudPaper Elevation=0
+              @onclick=@(() => setOpen(!open))>
+              <MudText>+ Add a Board</MudText>
+    </MudPaper>
+</MudCollapse>
 
 @code {
+    private bool open;
+    private void setOpen(bool value)
+    {
+        open = value;
+    }
 
+    [Parameter] public EventCallback<string> OnClick { get; set; }
 }

@@ -5,15 +5,15 @@
 </MudCollapse>
 <MudCollapse Expanded=@open>
     <MudPaper Elevation=0
-              @onclick=setOpen>
+              @onclick=@(() => setOpen(!open))>
               <MudText>+ Add a Card</MudText>
     </MudPaper>
 </MudCollapse>
 
 @code {
     private bool open;
-    private void setOpen()
+    private void setOpen(bool value)
     {
-        open = !open;
+        open = value;
     }
 }
