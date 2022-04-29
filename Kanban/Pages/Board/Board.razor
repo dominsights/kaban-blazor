@@ -1,0 +1,26 @@
+﻿@page "/board/{BoardName}"
+
+@using Kanban.Services
+@using Kanban.Components
+@inject KanbanApi kanbanApi
+
+@if (board != null)
+{
+    foreach (var c in board.CardLists)
+    {
+        <CardList />
+    }
+    <CardListInputContainer OnClick=@((string cardListTitle) => kanbanApi.AddCardList(new AddCardListRequest(board.Title, cardListTitle))) />
+}
+
+@code {
+    [Parameter]
+    public string BoardName { get; set; }
+    private Board_ board;
+
+    protected override async Task OnInitializedAsync()
+    {
+        board = await kanbanApi.GetBoard(BoardName);
+        Console.WriteLine(board);
+    }
+}

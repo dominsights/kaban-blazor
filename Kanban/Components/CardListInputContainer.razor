@@ -1,0 +1,21 @@
+﻿@using MudBlazor
+
+<MudCollapse Expanded=@(!open)>
+    <CardListInputCard setOpen=setOpen OnClick=OnClick></CardListInputCard>
+</MudCollapse>
+<MudCollapse Expanded=@open>
+    <MudPaper Elevation=0
+              @onclick=@(() => setOpen(!open))>
+              <MudText>+ Add a Card List</MudText>
+    </MudPaper>
+</MudCollapse>
+
+@code {
+    private bool open;
+    private void setOpen(bool value)
+    {
+        open = value;
+    }
+
+    [Parameter] public EventCallback<string> OnClick { get; set; }
+}

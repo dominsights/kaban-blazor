@@ -1,0 +1,31 @@
+﻿@page "/boards"
+@using Kanban.Services
+@using Kanban.Components
+@inject KanbanApi kanbanApi
+
+@if (boards == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var b in boards)
+    {
+        <MudBlazor.MudLink Href="@($"/board/{b.title}")">
+            <BoardCard Title=@b.title></BoardCard>
+        </MudBlazor.MudLink>
+    }
+    <BoardInputContainer OnClick=@((string title) => kanbanApi.SaveBoard(new CreateBoardRequest(title)))></BoardInputContainer>
+}
+
+@code {
+    private Board[]? boards;
+
+    protected override async Task OnInitializedAsync()
+    {
+        boards = await kanbanApi.GetAllBoards();
+    }
+
+
+
+}

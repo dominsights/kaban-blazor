@@ -1,5 +1,5 @@
-﻿using System.Net.Http.Json;
-using static Kanban.Pages.Boards;
+﻿using Kanban.Pages.Boards;
+using System.Net.Http.Json;
 
 namespace Kanban.Services
 {
@@ -19,8 +19,17 @@ namespace Kanban.Services
 
         public async Task SaveBoard(CreateBoardRequest board)
         {
-            await httpClient.PostAsJsonAsync<CreateBoardRequest>("http://localhost:8080/board", board);
+            await httpClient.PostAsJsonAsync("http://localhost:8080/board", board);
+        }
+
+        public async Task<Pages.Board.Board_> GetBoard(string boardName)
+        {
+            return await httpClient.GetFromJsonAsync<Pages.Board.Board_>($"http://localhost:8080/board/{boardName}");
+        }
+
+        public async Task AddCardList(Pages.Board.AddCardListRequest addCardListRequest)
+        {
+            await httpClient.PostAsJsonAsync($"http://localhost:8080/board/{addCardListRequest.board}/cardlist", addCardListRequest);
         }
     }
-
 }
