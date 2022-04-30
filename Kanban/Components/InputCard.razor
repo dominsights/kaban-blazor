@@ -6,9 +6,9 @@
     <MudTextField Lines=2
                   Placeholder="Enter a title for this card..."
                   FullWidth
-                  Value=Title></MudTextField>
+                  @bind-Value=Title></MudTextField>
 </MudPaper>
-<MudButton @onclick=@(() => setOpen.InvokeAsync(false))>
+<MudButton @onclick=OnClick_>
     Add Card
 </MudButton>
 <MudIconButton Icon=@Icons.Outlined.Clear @onclick=@(() => setOpen.InvokeAsync(false))></MudIconButton>
@@ -17,4 +17,11 @@
     [Parameter] public EventCallback<bool> setOpen { get; set; }
 
     public string Title { get; set; }
+    [Parameter] public EventCallback<string> OnClick { get; set; }
+
+    private void OnClick_()
+    {
+        setOpen.InvokeAsync(false);
+        OnClick.InvokeAsync(Title);
+    }
 }

@@ -1,7 +1,7 @@
 ﻿@using MudBlazor
 
 <MudCollapse Expanded=@(!open)>
-    <InputCard setOpen=setOpen></InputCard>
+    <InputCard setOpen=setOpen OnClick=OnClick></InputCard>
 </MudCollapse>
 <MudCollapse Expanded=@open>
     <MudPaper Elevation=0
@@ -16,4 +16,6 @@
     {
         open = value;
     }
+
+    [Parameter] public EventCallback<string> OnClick { get; set; }
 }

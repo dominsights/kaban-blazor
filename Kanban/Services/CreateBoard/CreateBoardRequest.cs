@@ -1,4 +1,4 @@
-﻿namespace Kanban.Pages.Boards
+﻿namespace Kanban.Services.CreateBoard
 {
     public record CreateBoardRequest(string BoardName);
 }

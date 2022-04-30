@@ -3,19 +3,21 @@
 @if (open)
 {
     <MudTextField AutoFocus
-                        @onblur=setOpen
-                        @bind-Value="InputTitle"
-                        Label="Title"
-                        Variant="Variant.Outlined"
-                        FullWidth></MudTextField>
+              @onblur=setOpen
+              @bind-Value="InputTitle"
+              Label="Title"
+              Variant="Variant.Outlined"
+              FullWidth></MudTextField>
 }
 else
 {
-    <MudText @onclick=setOpen>Todo</MudText>
+    <MudText @onclick=setOpen>@Text</MudText>
     <MudIcon Icon="@Icons.Outlined.MoreHoriz" />
 }
 
 @code {
+    [Parameter]
+    public string Text { get; set; }
     bool open = false;
     public string InputTitle { get; set; }
     private void setOpen() => open = !open;

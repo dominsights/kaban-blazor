@@ -1,13 +1,16 @@
 ﻿@using MudBlazor
 
 <MudPaper>
-    <Title></Title>
-    <Card></Card>
-    <Card></Card>
-    <Card></Card>
-    <InputContainer></InputContainer>
+    <Title Text=@Model.Title></Title>
+    @foreach (var card in Model.Cards)
+    {
+        <Card Model=card></Card>
+    }
+    <InputContainer OnClick=AddCard></InputContainer>
 </MudPaper>
 
 @code {
-
+    [Parameter]
+    public Pages.Board.Model.CardList Model { get; set; }
+    [Parameter] public EventCallback<string> AddCard { get; set; }
 }

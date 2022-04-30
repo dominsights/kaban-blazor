@@ -2,25 +2,27 @@
 
 @using Kanban.Services
 @using Kanban.Components
+@using Kanban.Services.AddCard
+@using Kanban.Services.AddCardList
 @inject KanbanApi kanbanApi
 
 @if (board != null)
 {
-    foreach (var c in board.CardLists)
+    foreach (var list in board.CardLists)
     {
-        <CardList />
+        <CardList Model=@list
+          AddCard=@((string cardTitle) => kanbanApi.AddCard(board.Title, new AddCardRequest(list.Title, cardTitle))) />
     }
-    <CardListInputContainer OnClick=@((string cardListTitle) => kanbanApi.AddCardList(new AddCardListRequest(board.Title, cardListTitle))) />
+    <CardListInputContainer AddCardList=@((string cardListTitle) => kanbanApi.AddCardList(new AddCardListRequest(board.Title, cardListTitle))) />
 }
 
 @code {
     [Parameter]
     public string BoardName { get; set; }
-    private Board_ board;
+    private Model.Board board;
 
     protected override async Task OnInitializedAsync()
     {
         board = await kanbanApi.GetBoard(BoardName);
-        Console.WriteLine(board);
     }
 }

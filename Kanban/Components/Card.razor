@@ -1,7 +1,8 @@
 ﻿@using MudBlazor
 
-<MudPaper>Study Akka</MudPaper>
+<MudPaper>@Model.Title</MudPaper>
 
 @code {
-
+    [Parameter]
+    public Pages.Board.Model.Card Model { get; set; }
 }

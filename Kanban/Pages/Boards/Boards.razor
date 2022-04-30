@@ -1,7 +1,10 @@
 ﻿@page "/boards"
 @using Kanban.Services
 @using Kanban.Components
-@inject KanbanApi kanbanApi
+@using Kanban.Services.CreateBoard
+@using Kanban.Services.GetAllBoards
+@inject CreateBoardService createBoard
+@inject GetAllBoardsService getAllBoards
 
 @if (boards == null)
 {
@@ -15,15 +18,15 @@ else
             <BoardCard Title=@b.title></BoardCard>
         </MudBlazor.MudLink>
     }
-    <BoardInputContainer OnClick=@((string title) => kanbanApi.SaveBoard(new CreateBoardRequest(title)))></BoardInputContainer>
+    <BoardInputContainer OnClick=@((string title) => createBoard.SaveBoard(new CreateBoardRequest(title)))></BoardInputContainer>
 }
 
 @code {
-    private Board[]? boards;
+    private Model.Board[]? boards;
 
     protected override async Task OnInitializedAsync()
     {
-        boards = await kanbanApi.GetAllBoards();
+        boards = await getAllBoards.GetAllBoards();
     }
 
 
