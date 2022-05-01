@@ -1,4 +1,4 @@
-﻿namespace Kanban.Pages.Boards.Model
+﻿namespace Kanban.Services.GetAllBoards
 {
     public record Board(string title);
 }

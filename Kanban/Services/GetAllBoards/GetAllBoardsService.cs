@@ -9,7 +9,7 @@
             this.kanbanApi = kanbanApi;
         }
 
-        public async Task<Pages.Boards.Model.Board[]> GetAllBoards()
+        public async Task<Board[]> GetAllBoards()
         {
             return await kanbanApi.GetAllBoards();
         }

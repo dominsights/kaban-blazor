@@ -1,8 +1,8 @@
 ﻿@page "/boards"
-@using Kanban.Services
-@using Kanban.Components
-@using Kanban.Services.CreateBoard
-@using Kanban.Services.GetAllBoards
+@    using Kanban.Services
+@    using Kanban.Components
+@    using Kanban.Services.CreateBoard
+@    using Kanban.Services.GetAllBoards
 @inject CreateBoardService createBoard
 @inject GetAllBoardsService getAllBoards
 
@@ -22,7 +22,7 @@ else
 }
 
 @code {
-    private Model.Board[]? boards;
+    private Board[]? boards;
 
     protected override async Task OnInitializedAsync()
     {

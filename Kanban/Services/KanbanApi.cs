@@ -1,6 +1,7 @@
 ﻿using Kanban.Services.AddCard;
 using Kanban.Services.AddCardList;
 using Kanban.Services.CreateBoard;
+using Kanban.Services.GetAllBoards;
 using System.Net.Http.Json;
 
 namespace Kanban.Services
@@ -14,9 +15,9 @@ namespace Kanban.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<Pages.Boards.Model.Board[]> GetAllBoards()
+        public async Task<Board[]> GetAllBoards()
         {
-            return await httpClient.GetFromJsonAsync<Pages.Boards.Model.Board[]>("http://localhost:8080/board");
+            return await httpClient.GetFromJsonAsync<Board[]>("http://localhost:8080/board");
         }
 
         public async Task SaveBoard(CreateBoardRequest board)
