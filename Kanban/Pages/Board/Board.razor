@@ -4,19 +4,23 @@
 @using Kanban.Components
 @using Kanban.Services.AddCard
 @using Kanban.Services.AddCardList
-@inject KanbanApi kanbanApi
+@using Kanban.Services.GetBoard
+
+@inject AddCardService addCard
+@inject AddCardListService addCardList
+@inject GetBoardService getBoard
 
 <div class="d-flex gap-4">
 
-@if (board != null)
-{
-    foreach (var list in board.CardLists)
+    @if (board != null)
     {
-        <CardList Model=@list
-          AddCard=@((string cardTitle) => kanbanApi.AddCard(board.Title, new AddCardRequest(list.Title, cardTitle))) />
+        foreach (var list in board.CardLists)
+        {
+            <CardList Model=@list
+              AddCard=@((string cardTitle) => addCard.AddCard(board.Title, new AddCardRequest(list.Title, cardTitle))) />
+        }
+        <CardListInputContainer AddCardList=@((string cardListTitle) => addCardList.AddCardList(new AddCardListRequest(board.Title, cardListTitle))) />
     }
-    <CardListInputContainer AddCardList=@((string cardListTitle) => kanbanApi.AddCardList(new AddCardListRequest(board.Title, cardListTitle))) />
-}
 </div>
 
 @code {
@@ -26,6 +30,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        board = await kanbanApi.GetBoard(BoardName);
+        board = await getBoard.GetBoard(BoardName);
     }
 }
