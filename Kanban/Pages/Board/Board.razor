@@ -6,6 +6,8 @@
 @using Kanban.Services.AddCardList
 @inject KanbanApi kanbanApi
 
+<div class="d-flex">
+
 @if (board != null)
 {
     foreach (var list in board.CardLists)
@@ -15,6 +17,7 @@
     }
     <CardListInputContainer AddCardList=@((string cardListTitle) => kanbanApi.AddCardList(new AddCardListRequest(board.Title, cardListTitle))) />
 }
+</div>
 
 @code {
     [Parameter]

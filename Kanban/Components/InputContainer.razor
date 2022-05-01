@@ -1,9 +1,9 @@
 ﻿@using MudBlazor
 
-<MudCollapse Expanded=@(!open)>
+<MudCollapse Expanded=@(open)>
     <InputCard setOpen=setOpen OnClick=OnClick></InputCard>
 </MudCollapse>
-<MudCollapse Expanded=@open>
+<MudCollapse Expanded=@(!open)>
     <MudPaper Elevation=0
               @onclick=@(() => setOpen(!open))>
               <MudText>+ Add a Card</MudText>
