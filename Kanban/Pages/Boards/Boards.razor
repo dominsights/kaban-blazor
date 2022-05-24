@@ -2,9 +2,12 @@
 @using Kanban.Services
 @using Kanban.Components.Board
 @using Kanban.Services.CreateBoard
+@using System.Text.Json;
 @using Kanban.Services.GetAllBoards
+
 @inject CreateBoardService createBoard
 @inject GetAllBoardsService getAllBoards
+@inject KanbanApi kanbanApi
 
 @if (boards == null)
 {
@@ -26,6 +29,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await kanbanApi.Login("domicio", "senha");
         boards = await getAllBoards.GetAllBoards();
+        Console.WriteLine(JsonSerializer.Serialize(boards));
     }
 }
