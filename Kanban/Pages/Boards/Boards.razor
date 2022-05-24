@@ -29,8 +29,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await kanbanApi.Login("domicio", "senha");
         boards = await getAllBoards.GetAllBoards();
-        Console.WriteLine(JsonSerializer.Serialize(boards));
     }
 }

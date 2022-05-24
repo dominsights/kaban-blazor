@@ -1,0 +1,42 @@
+@using Kanban.Services
+@using MudBlazor
+@using Microsoft.JSInterop
+@using System.Text.Json
+
+
+@inject KanbanApi kanbanApi
+@inject IJSRuntime jsRuntime
+@inject NavigationManager NavManager
+
+@page "/login"
+
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm>
+                    <MudTextField T="string" @bind-Value=Username Label="Username" Required="true" RequiredError="User name is required!"/>
+                
+                    <MudTextField T="string" @bind-Value=Password Label="Password"
+                                  InputType="InputType.Password" Required="true" RequiredError="Password is required!"/>
+                    <MudButton OnClick=Login_Click Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudForm>   
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+    public string Username { get; set; }
+    public string Password { get; set; }
+
+    private async void Login_Click() {
+        await kanbanApi.Login(Username, Password);
+
+        string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt");
+        Kanban.Services.KanbanApi.JwtResponse jwt = JsonSerializer.Deserialize<Kanban.Services.KanbanApi.JwtResponse>(json);
+
+        if(jwt != null && string.IsNullOrWhiteSpace(jwt.token)) {
+            NavManager.NavigateTo("/boards"); // it doesn't work
+        }
+    }
+}

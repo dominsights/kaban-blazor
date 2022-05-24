@@ -59,7 +59,7 @@ namespace Kanban.Services
             }
         }
 
-        record UserAccount(string username, string password);
-        record JwtResponse(string token);
+        public record UserAccount(string username, string password);
+        public record JwtResponse(string token);
     }
 }
