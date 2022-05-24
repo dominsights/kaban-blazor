@@ -6,7 +6,7 @@
 
 @inject KanbanApi kanbanApi
 @inject IJSRuntime jsRuntime
-@inject NavigationManager NavManager
+@inject NavigationManager NavigationManager
 
 @page "/login"
 
@@ -34,9 +34,8 @@
 
         string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt");
         Kanban.Services.KanbanApi.JwtResponse jwt = JsonSerializer.Deserialize<Kanban.Services.KanbanApi.JwtResponse>(json);
-
-        if(jwt != null && string.IsNullOrWhiteSpace(jwt.token)) {
-            NavManager.NavigateTo("/boards"); // it doesn't work
+        if(jwt != null && !string.IsNullOrWhiteSpace(jwt.token)) {
+            NavigationManager.NavigateTo("/boards");
         }
     }
 }
