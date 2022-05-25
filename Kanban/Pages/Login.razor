@@ -4,9 +4,10 @@
 @using System.Text.Json
 
 
-@inject KanbanApi kanbanApi
+@inject AuthenticationService authenticationService
 @inject IJSRuntime jsRuntime
 @inject NavigationManager NavigationManager
+@inject AuthenticationService authenticationService
 
 @page "/login"
 
@@ -30,12 +31,11 @@
     public string Password { get; set; }
 
     private async void Login_Click() {
-        await kanbanApi.Login(Username, Password);
+        await authenticationService.Login(Username, Password);
 
-        string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt");
-        Kanban.Services.KanbanApi.JwtResponse jwt = JsonSerializer.Deserialize<Kanban.Services.KanbanApi.JwtResponse>(json);
-        if(jwt != null && !string.IsNullOrWhiteSpace(jwt.token)) {
-            NavigationManager.NavigateTo("/boards");
+        if(await authenticationService.IsLoggedIn()) {
+            var returnUrl = NavigationManager.QueryString()["returnUrl"] ?? "/";
+            NavigationManager.NavigateTo(returnUrl);
         }
     }
 }

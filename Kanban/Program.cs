@@ -20,6 +20,7 @@ builder.Services.AddScoped<AddCardListService>();
 builder.Services.AddScoped<CreateBoardService>();
 builder.Services.AddScoped<GetAllBoardsService>();
 builder.Services.AddScoped<GetBoardService>();
+builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();

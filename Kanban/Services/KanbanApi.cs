@@ -22,44 +22,39 @@ namespace Kanban.Services
 
         public async Task<Board[]> GetAllBoards()
         {
-            string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "jwt");
-            JwtResponse jwt = JsonSerializer.Deserialize<JwtResponse>(json);
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt.token);
+            await SetBearerToken();
             return await httpClient.GetFromJsonAsync<Board[]>("http://localhost:8080/board");
-
         }
 
         public async Task SaveBoard(CreateBoardRequest board)
         {
+            await SetBearerToken();
             await httpClient.PostAsJsonAsync("http://localhost:8080/board", board);
         }
 
         public async Task<Pages.Board.Model.Board> GetBoard(string boardName)
         {
+            await SetBearerToken();
             return await httpClient.GetFromJsonAsync<Pages.Board.Model.Board>($"http://localhost:8080/board/{boardName}");
         }
 
         public async Task AddCardList(AddCardListRequest addCardListRequest)
         {
+            await SetBearerToken();
             await httpClient.PostAsJsonAsync($"http://localhost:8080/board/{addCardListRequest.board}/cardlist", addCardListRequest);
         }
 
         public async Task AddCard(string board, AddCardRequest addCard)
         {
+            await SetBearerToken();
             await httpClient.PostAsJsonAsync($"http://localhost:8080/board/{board}/cardlist/{addCard.cardlist}", addCard);
         }
 
-        public async Task Login(string username, string password) {
-            UserAccount user = new UserAccount(username, password);
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync($"http://localhost:8080/authenticate", user);
-            Console.WriteLine(JsonSerializer.Serialize(response));
-            if(response.IsSuccessStatusCode) {
-                 JwtResponse jwtResponse = await response.Content.ReadFromJsonAsync<JwtResponse>();
-                 await jsRuntime.InvokeVoidAsync("localStorage.setItem", "jwt", JsonSerializer.Serialize(jwtResponse));
-            }
+        private async Task SetBearerToken()
+        {
+            string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "user");
+            JwtResponse jwt = JsonSerializer.Deserialize<JwtResponse>(json);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt.token);
         }
-
-        public record UserAccount(string username, string password);
-        public record JwtResponse(string token);
     }
 }
