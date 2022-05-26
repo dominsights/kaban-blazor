@@ -23,4 +23,11 @@ builder.Services.AddScoped<GetBoardService>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddMudServices();
 
-await builder.Build().RunAsync();
+
+
+var host = builder.Build();
+
+var authenticationService = host.Services.GetRequiredService<AuthenticationService>();
+await authenticationService.Initialize(); // necessary because you can't run async methods inside the RouteView.Render()
+
+await host.RunAsync();

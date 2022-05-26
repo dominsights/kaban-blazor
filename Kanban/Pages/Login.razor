@@ -1,7 +1,6 @@
 @using Kanban.Services
 @using MudBlazor
 @using Microsoft.JSInterop
-@using System.Text.Json
 
 
 @inject AuthenticationService authenticationService
@@ -33,7 +32,7 @@
     private async void Login_Click() {
         await authenticationService.Login(Username, Password);
 
-        if(await authenticationService.IsLoggedIn()) {
+        if(authenticationService.IsLoggedIn) {
             var returnUrl = NavigationManager.QueryString()["returnUrl"] ?? "/";
             NavigationManager.NavigateTo(returnUrl);
         }

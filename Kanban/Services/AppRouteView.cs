@@ -15,22 +15,18 @@ namespace Kanban.Services
         [Inject]
         public AuthenticationService AuthenticationService { get; set; }
 
-        protected async override void Render(RenderTreeBuilder builder)
+        protected override void Render(RenderTreeBuilder builder)
         {
             var authorize = Attribute.GetCustomAttribute(RouteData.PageType, typeof(AuthorizeAttribute)) != null;
-            Console.WriteLine("Authorize: " + authorize);
-            bool isLoggedIn = await AuthenticationService.IsLoggedIn();
-            Console.WriteLine("Is logged in? " + isLoggedIn);
+            bool isLoggedIn = AuthenticationService.IsLoggedIn;
 
-            if (authorize && !await AuthenticationService.IsLoggedIn())
+            if (authorize && !isLoggedIn)
             {
-                Console.WriteLine("Not logged in!");
                 var returnUrl = WebUtility.UrlEncode(new Uri(NavigationManager.Uri).PathAndQuery);
                 NavigationManager.NavigateTo($"login?returnUrl={returnUrl}");
             }
             else
             {
-                Console.WriteLine("Render!");
                 base.Render(builder);
             }
         }

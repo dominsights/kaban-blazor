@@ -8,19 +8,22 @@ namespace Kanban.Services
         private IJSRuntime jsRuntime;
         private HttpClient httpClient;
         
+        public bool IsLoggedIn { get; set; }
+
         public AuthenticationService(IJSRuntime jsRuntime, HttpClient httpClient)
         {
             this.httpClient = httpClient;
             this.jsRuntime = jsRuntime;    
         }
 
-        public async Task<bool> IsLoggedIn() {
+        public async Task Initialize() {
             string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "user");
             if(string.IsNullOrWhiteSpace(json)) {
-                return false;
+                IsLoggedIn = false;
+                return;
             }
             JwtResponse jwt = JsonSerializer.Deserialize<JwtResponse>(json);
-            return jwt != null && !string.IsNullOrWhiteSpace(jwt.token);
+            IsLoggedIn = jwt != null && !string.IsNullOrWhiteSpace(jwt.token);
         }
 
         public async Task Login(string username, string password) {
@@ -30,6 +33,7 @@ namespace Kanban.Services
             if(response.IsSuccessStatusCode) {
                  JwtResponse jwtResponse = await response.Content.ReadFromJsonAsync<JwtResponse>();
                  await jsRuntime.InvokeVoidAsync("localStorage.setItem", "user", JsonSerializer.Serialize(jwtResponse));
+                 IsLoggedIn = true;
             }
         }
     }

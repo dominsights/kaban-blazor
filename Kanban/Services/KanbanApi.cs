@@ -53,6 +53,7 @@ namespace Kanban.Services
         private async Task SetBearerToken()
         {
             string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "user");
+            if(string.IsNullOrWhiteSpace(json)) return;
             JwtResponse jwt = JsonSerializer.Deserialize<JwtResponse>(json);
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt.token);
         }
