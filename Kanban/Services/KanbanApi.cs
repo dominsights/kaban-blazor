@@ -23,7 +23,7 @@ namespace Kanban.Services
         public async Task<Board[]> GetAllBoards()
         {
             await SetBearerToken();
-            return await httpClient.GetFromJsonAsync<Board[]>("http://localhost:8080/board");
+            return await httpClient.GetFromJsonAsync<Board[]>("http://localhost:8080/board") ?? new Board[0];
         }
 
         public async Task SaveBoard(CreateBoardRequest board)
@@ -35,7 +35,9 @@ namespace Kanban.Services
         public async Task<Pages.Board.Model.Board> GetBoard(string boardName)
         {
             await SetBearerToken();
-            return await httpClient.GetFromJsonAsync<Pages.Board.Model.Board>($"http://localhost:8080/board/{boardName}");
+            var board = await httpClient.GetFromJsonAsync<Pages.Board.Model.Board>($"http://localhost:8080/board/{boardName}");
+            if(board == null) throw new Exception("Board not returned from service.");
+            return board;
         }
 
         public async Task AddCardList(AddCardListRequest addCardListRequest)
@@ -54,8 +56,8 @@ namespace Kanban.Services
         {
             string json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "user");
             if(string.IsNullOrWhiteSpace(json)) return;
-            JwtResponse jwt = JsonSerializer.Deserialize<JwtResponse>(json);
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt.token);
+            JwtResponse? jwt = JsonSerializer.Deserialize<JwtResponse>(json);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt?.token);
         }
     }
 }

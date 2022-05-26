@@ -17,8 +17,8 @@ else
 
 @code {
     [Parameter]
-    public string Text { get; set; }
+    public string? Text { get; set; }
     bool open = false;
-    public string InputTitle { get; set; }
+    public string? InputTitle { get; set; }
     private void setOpen() => open = !open;
 }

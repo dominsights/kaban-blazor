@@ -1,8 +1,8 @@
 ﻿@using MudBlazor
 
-<MudPaper>@Model.Title</MudPaper>
+<MudPaper>@Model?.Title</MudPaper>
 
 @code {
     [Parameter]
-    public Pages.Board.Model.Card Model { get; set; }
+    public Pages.Board.Model.Card? Model { get; set; }
 }

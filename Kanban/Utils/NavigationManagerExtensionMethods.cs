@@ -16,7 +16,8 @@ namespace Kanban
 
         public static string QueryString(this NavigationManager navigationManager, string key)
         {
-            return navigationManager.QueryString()[key];
+            var queryString = navigationManager.QueryString()[key];
+            return queryString ?? "";
         }
     }
 }

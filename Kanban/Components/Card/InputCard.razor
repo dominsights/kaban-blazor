@@ -14,7 +14,7 @@
 @code {
     [Parameter] public EventCallback<bool> setOpen { get; set; }
 
-    public string Title { get; set; }
+    public string? Title { get; set; }
     [Parameter] public EventCallback<string> OnClick { get; set; }
 
     private void OnClick_()
